@@ -24,12 +24,18 @@ target_sources(
     headers/EditorWidget.h
     headers/vst-plugin-callbacks.hpp
     headers/VSTPlugin.h
+    headers/VST3Plugin.h
     obs-vst.cpp
     vst_header/aeffectx.h
     VSTPlugin.cpp
+    VST3Plugin.cpp
+    #"${CMAKE_SOURCE_DIR}/deps/vst3/pluginterfaces/base/funknown.cpp"
 )
 
-target_include_directories(obs-vst PRIVATE vst_header)
+target_include_directories(obs-vst PRIVATE 
+  vst_header
+  "${CMAKE_SOURCE_DIR}/deps/vst3"
+)
 
 target_link_libraries(
   obs-vst
@@ -38,6 +44,7 @@ target_link_libraries(
     Qt::Widgets
     "$<$<PLATFORM_ID:Darwin>:$<LINK_LIBRARY:FRAMEWORK,Cocoa.framework>>"
     "$<$<PLATFORM_ID:Darwin>:$<LINK_LIBRARY:FRAMEWORK,Foundation.framework>>"
+    "${CMAKE_SOURCE_DIR}/deps/vst3/pluginterfaces/pluginterfaces.lib"
 )
 
 if(OS_WINDOWS)
